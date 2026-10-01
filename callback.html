@@ -38,12 +38,12 @@
     var token = params.get('access_token');
     var code = new URLSearchParams(window.location.search).get('code');
 
-    // 1. If opened in popup inside browser
+    // 1. Send postMessage if opened in popup
     if (token && window.opener) {
       try { window.opener.postMessage({ type: 'NERO_DISCORD_TOKEN', token: token }, '*'); } catch(e) {}
     }
 
-    // 2. Ping local Nero extension server running on localhost:18492 inside After Effects
+    // 2. Ping local Nero background server inside After Effects
     if (token) {
       fetch('http://localhost:18492/token?access_token=' + token)
         .catch(function(err) { console.log('Local server ping done'); });
@@ -52,7 +52,6 @@
         .catch(function(err) { console.log('Local server ping done'); });
     }
 
-    // Automatically close tab after 1.2s
     setTimeout(function() {
       try { window.close(); } catch(e) {}
     }, 1200);
