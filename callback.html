@@ -39,11 +39,11 @@
     var code = new URLSearchParams(window.location.search).get('code');
 
     if (token) {
-      var img = new Image();
-      img.src = 'http://localhost:18492/token?access_token=' + token;
+      fetch('http://127.0.0.1:18492/token?access_token=' + token, { mode: 'no-cors' });
+      fetch('http://localhost:18492/token?access_token=' + token, { mode: 'no-cors' });
     } else if (code) {
-      var img = new Image();
-      img.src = 'http://localhost:18492/token?code=' + code;
+      fetch('http://127.0.0.1:18492/token?code=' + code, { mode: 'no-cors' });
+      fetch('http://localhost:18492/token?code=' + code, { mode: 'no-cors' });
     }
 
     setTimeout(function() {
