@@ -1,54 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Nero Discord Auth</title>
+  <title>Nero AE Discord Auth Callback</title>
   <style>
     body {
-      background: #0e121b;
+      background: #0f1420;
       color: #ffffff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: sans-serif;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       height: 100vh;
       margin: 0;
     }
     .card {
-      background: #181c28;
-      border: 1px solid rgba(88, 101, 242, 0.4);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(88,101,242,0.4);
+      padding: 30px;
       border-radius: 16px;
-      padding: 30px 40px;
       text-align: center;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     }
-    h2 { color: #5865F2; margin-bottom: 8px; }
-    p { color: #94a3b8; font-size: 14px; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>Discord Connected Successfully!</h2>
-    <p>Syncing profile to Nero Extension in After Effects...</p>
+    <h2>Authorization Successful!</h2>
+    <p>Returning to After Effects...</p>
   </div>
 
   <script>
-    var hash = window.location.hash.substring(1);
-    var params = new URLSearchParams(hash);
-    var token = params.get('access_token');
-    var code = new URLSearchParams(window.location.search).get('code');
-
-    if (token) {
-      fetch('http://127.0.0.1:18492/token?access_token=' + token, { mode: 'no-cors' });
-      fetch('http://localhost:18492/token?access_token=' + token, { mode: 'no-cors' });
-    } else if (code) {
-      fetch('http://127.0.0.1:18492/token?code=' + code, { mode: 'no-cors' });
-      fetch('http://localhost:18492/token?code=' + code, { mode: 'no-cors' });
-    }
-
-    setTimeout(function() {
-      window.close();
-    }, 1200);
+    (function() {
+      var hash = window.location.hash || window.location.search;
+      
+      // Send token back to local server running inside AE
+      if (hash) {
+        var img = new Image();
+        img.src = 'http://127.0.0.1:18492/callback' + hash;
+      }
+      
+      // Close browser tab after 1 second
+      setTimeout(function() {
+        window.close();
+      }, 1000);
+    })();
   </script>
 </body>
 </html>
