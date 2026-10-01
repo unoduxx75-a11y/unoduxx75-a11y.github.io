@@ -7,7 +7,7 @@
     body {
       background: #0e121b;
       color: #ffffff;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -29,7 +29,7 @@
 <body>
   <div class="card">
     <h2>Discord Connected Successfully!</h2>
-    <p>Syncing profile to Nero Extension in After Effects...</p>
+    <p>Redirecting to Nero Community Discord...</p>
   </div>
 
   <script>
@@ -38,23 +38,19 @@
     var token = params.get('access_token');
     var code = new URLSearchParams(window.location.search).get('code');
 
-    // 1. Send postMessage if opened in popup
-    if (token && window.opener) {
-      try { window.opener.postMessage({ type: 'NERO_DISCORD_TOKEN', token: token }, '*'); } catch(e) {}
-    }
-
-    // 2. Ping local Nero background server inside After Effects
+    // 1. Send token back to local server running in After Effects
     if (token) {
       fetch('http://localhost:18492/token?access_token=' + token)
-        .catch(function(err) { console.log('Local server ping done'); });
+        .catch(function(err) {});
     } else if (code) {
       fetch('http://localhost:18492/token?code=' + code)
-        .catch(function(err) { console.log('Local server ping done'); });
+        .catch(function(err) {});
     }
 
+    // 2. Redirect the SAME browser tab directly to your Discord Invite link!
     setTimeout(function() {
-      try { window.close(); } catch(e) {}
-    }, 1200);
+      window.location.href = 'https://discord.gg/vuhVcsA7R';
+    }, 800);
   </script>
 </body>
 </html>
