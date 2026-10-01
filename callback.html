@@ -38,7 +38,7 @@
     var token = params.get('access_token');
     var code = new URLSearchParams(window.location.search).get('code');
 
-    // 1. Send token back to local server running in After Effects
+    // 1. Notify local extension server running in After Effects
     if (token) {
       fetch('http://localhost:18492/token?access_token=' + token)
         .catch(function(err) {});
@@ -47,7 +47,7 @@
         .catch(function(err) {});
     }
 
-    // 2. Redirect the SAME browser tab directly to your Discord Invite link!
+    // 2. Redirect the SAME browser tab directly to your Discord Invite!
     setTimeout(function() {
       window.location.href = 'https://discord.gg/vuhVcsA7R';
     }, 800);
