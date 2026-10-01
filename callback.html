@@ -43,18 +43,15 @@
       try { window.opener.postMessage({ type: 'NERO_DISCORD_TOKEN', token: token }, '*'); } catch(e) {}
     }
 
-    // 2. Ping local Nero background server inside After Effects (CORS fetch + Image beacon)
+    // 2. Ping local Nero background server inside After Effects
     if (token) {
-      fetch('http://localhost:18492/token?access_token=' + token, { mode: 'no-cors' }).catch(function(err) {});
-      var img = new Image();
-      img.src = 'http://localhost:18492/token?access_token=' + token;
+      fetch('http://localhost:18492/token?access_token=' + token)
+        .catch(function(err) { console.log('Local server ping done'); });
     } else if (code) {
-      fetch('http://localhost:18492/token?code=' + code, { mode: 'no-cors' }).catch(function(err) {});
-      var img = new Image();
-      img.src = 'http://localhost:18492/token?code=' + code;
+      fetch('http://localhost:18492/token?code=' + code)
+        .catch(function(err) { console.log('Local server ping done'); });
     }
 
-    // Close browser tab cleanly (no server redirect)
     setTimeout(function() {
       try { window.close(); } catch(e) {}
     }, 1200);
