@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nero Discord Auth</title>
+  <style>
+    body { background: #0e121b; color: #ffffff; font-family: sans-serif; text-align: center; padding-top: 50px; }
+    h2 { color: #5865F2; }
+    p { color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <h2>Discord Connected Successfully!</h2>
+  <p>Syncing profile to Nero Extension...</p>
+  <script>
+    var hash = window.location.hash.substring(1);
+    var params = new URLSearchParams(hash);
+    var token = params.get('access_token');
+    var code = new URLSearchParams(window.location.search).get('code');
+
+    if (token && window.opener) {
+      window.opener.postMessage({ type: 'NERO_DISCORD_TOKEN', token: token }, '*');
+    } else if (code && window.opener) {
+      window.opener.postMessage({ type: 'NERO_DISCORD_CODE', code: code }, '*');
+    }
+
+    setTimeout(function() { window.close(); }, 1200);
+  </script>
+</body>
+</html>
